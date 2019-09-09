@@ -5,15 +5,24 @@ import android.support.v4.view.ViewPager
 import android.util.Log
 import com.dandan.tzx.R
 import com.dandan.tzx.common.activity.BaseActivity
+import com.dandan.tzx.common.network.SimpleSubscriber
+import com.dandan.tzx.config.GankioConfig
 import com.dandan.tzx.main.fragment.FindMainFragment
 import com.dandan.tzx.main.fragment.HistoryFragment
 import com.dandan.tzx.main.fragment.RecommendFragment
+import com.dandan.tzx.main.model.CategoryDataEntities
+import com.dandan.tzx.main.model.GankHistoryDay
+import com.dandan.tzx.main.task.CategoryListTask
+import com.dandan.tzx.main.task.GankHistoryListTask
 import com.dandan.tzx.main.task.TodayListTask
 import com.dandan.tzx.view.adapter.BottomAdapter
 import kotlinx.android.synthetic.main.activity_main_layout.*
+import kotlinx.android.synthetic.main.fragment_find_main_layout.*
+import com.dandan.tzx.main.model.historyList
 
 
 class MainActivity : BaseActivity() {
+    public var list: GankHistoryDay? = null
     private val id_tabs = listOf(R.id.tab_find, R.id.tab_recommend, R.id.tab_history)
     private var currentViewId = -1
 
@@ -22,6 +31,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_layout)
         init()
+        getData()
     }
 
     private fun init() {
@@ -73,5 +83,18 @@ class MainActivity : BaseActivity() {
         adapter.addFragment(RecommendFragment(this))
         adapter.addFragment(HistoryFragment(this))
         viewPage.adapter = adapter
+    }
+
+    private fun getData() {
+        val s = submitForObservable(GankHistoryListTask())
+                .subscribe(object: SimpleSubscriber<GankHistoryDay>() {
+                    override fun onNext(t: GankHistoryDay) {
+                        super.onNext(t)
+                        if (!t.error) {
+                            historyList = t
+                        }
+                    }
+                })
+        addSubscription(s)
     }
 }

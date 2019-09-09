@@ -29,6 +29,13 @@ abstract class BaseAdapter<T> constructor(context: Context) : RecyclerView.Adapt
         mData?.addAll(value)
     }
 
+    public fun addItemData(value: T) {
+        if (mData == null) {
+            mData = mutableListOf()
+        }
+        mData?.add(value)
+    }
+
     public fun clean() {
         mData?.clear()
     }

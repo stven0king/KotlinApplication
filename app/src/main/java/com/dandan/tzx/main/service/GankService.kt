@@ -1,6 +1,7 @@
 package com.dandan.tzx.main.service
 
 import com.dandan.tzx.main.model.CategoryDataEntities
+import com.dandan.tzx.main.model.GankHistoryDay
 import com.dandan.tzx.main.model.GankTodayDataEntities
 import org.json.JSONObject
 import retrofit2.http.GET
@@ -15,8 +16,15 @@ import rx.Observable
  */
 
 interface GankService {
-    @GET("/api/today")
+
+    @GET("api/day/history")
+    fun getHistoryDayList(): Observable<GankHistoryDay>
+
+    @GET("api/today")
     fun getTodayData(): Observable<GankTodayDataEntities>
+
+    @GET("api/day/{path}")
+    fun getHistoryData(@Path("path") path: String): Observable<GankTodayDataEntities>
 
     @GET("api/data/{type}/{path}")
     fun getCategoryData(@Path("type") type:String,

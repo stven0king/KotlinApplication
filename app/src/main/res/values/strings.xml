@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">~!猪猪</string>
+
+    <string name="tab_light_find">妹子</string>
+    <string name="tab_recommend">推荐</string>
+    <string name="tab_history">历史</string>
+</resources>

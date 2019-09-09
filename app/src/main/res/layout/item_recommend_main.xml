@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+        CardView_cardBackgroundColor 设置背景色
+        CardView_cardCornerRadius 设置圆角大小
+        CardView_cardElevation 设置z轴阴影
+        CardView_cardMaxElevation 设置z轴最大高度值
+        CardView_cardUseCompatPadding 是否使用CompadPadding
+        CardView_cardPreventCornerOverlap 是否使用PreventCornerOverlap
+        CardView_contentPadding 内容的padding
+    -->
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/cardview_light_background"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="4dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:contentPaddingLeft="2dp"
+    app:contentPaddingRight="2dp"
+    app:contentPaddingBottom="2dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/content_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="90dp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:text="简洁漂亮的Android 圆角、圆形 ImageView。" />
+
+        <TextView
+            android:id="@+id/author_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_marginRight="120dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"
+            android:text="作者：lijinshanmx" />
+
+        <ImageView
+            android:id="@+id/icon_iv"
+            android:layout_alignParentRight="true"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"/>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

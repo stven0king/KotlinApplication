@@ -5,14 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.dandan.tzx.R
-import com.dandan.tzx.common.view.BaseAdapter
-import com.dandan.tzx.common.view.BaseViewHolder
+import com.tzx.framework.view.BaseAdapter
+import com.tzx.framework.view.BaseViewHolder
 import com.dandan.tzx.config.GlideApp
 import com.dandan.tzx.main.activity.PicPreviewActivity
 import com.dandan.tzx.main.model.GankItemEntiry
-import kotlinx.android.synthetic.main.item_find_layout.view.*
 
 /**
  * Created by Tanzhenxing

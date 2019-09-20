@@ -1,9 +1,8 @@
-package com.dandan.tzx.common.view
+package com.tzx.framework.view
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import com.dandan.tzx.main.model.GankItemEntiry
 
 /**
  * Created by Tanzhenxing

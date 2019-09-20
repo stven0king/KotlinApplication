@@ -1,9 +1,8 @@
 package com.dandan.tzx.main.task
 
-import com.dandan.tzx.common.network.RetrofitTask
+import com.tzx.framework.retrofit.RetrofitTask
 import com.dandan.tzx.main.model.GankTodayDataEntities
 import com.dandan.tzx.main.service.GankService
-import org.json.JSONObject
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -13,7 +12,7 @@ import rx.schedulers.Schedulers
  * Date: 2019-08-30 17:01
  * Description:
  */
-class HistoryListTask(private val pageIndex:String) : RetrofitTask<GankTodayDataEntities>() {
+class HistoryListTask(private val pageIndex:String) : com.tzx.framework.retrofit.RetrofitTask<GankTodayDataEntities>() {
     override fun exeForObservable(): Observable<GankTodayDataEntities> {
         return createService(GankService::class.java)
                 .getHistoryData(pageIndex)

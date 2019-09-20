@@ -4,23 +4,15 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.util.Log
 import com.dandan.tzx.R
-import com.dandan.tzx.common.activity.BaseActivity
-import com.dandan.tzx.common.network.SimpleSubscriber
-import com.dandan.tzx.config.GankioConfig
+import com.tzx.framework.base.BaseActivity
 import com.dandan.tzx.main.fragment.FindMainFragment
 import com.dandan.tzx.main.fragment.HistoryFragment
 import com.dandan.tzx.main.fragment.RecommendFragment
-import com.dandan.tzx.main.model.CategoryDataEntities
 import com.dandan.tzx.main.model.GankHistoryDay
-import com.dandan.tzx.main.task.CategoryListTask
 import com.dandan.tzx.main.task.GankHistoryListTask
-import com.dandan.tzx.main.task.TodayListTask
 import com.dandan.tzx.view.adapter.BottomAdapter
 import kotlinx.android.synthetic.main.activity_main_layout.*
-import kotlinx.android.synthetic.main.fragment_find_main_layout.*
 import com.dandan.tzx.main.model.historyList
-import com.dandan.tzx.main.service.ToastObserver
-import java.util.logging.Logger
 
 
 class MainActivity : BaseActivity() {
@@ -34,7 +26,6 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main_layout)
         init()
         getData()
-        lifecycle.addObserver(ToastObserver())
     }
 
     private fun init() {
@@ -90,7 +81,7 @@ class MainActivity : BaseActivity() {
 
     private fun getData() {
         val s = submitForObservable(GankHistoryListTask())
-                .subscribe(object: SimpleSubscriber<GankHistoryDay>() {
+                .subscribe(object: com.tzx.framework.retrofit.SimpleSubscriber<GankHistoryDay>() {
                     override fun onNext(t: GankHistoryDay) {
                         super.onNext(t)
                         if (!t.error) {

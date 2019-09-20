@@ -9,8 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.dandan.tzx.R
-import com.dandan.tzx.common.activity.BaseFragment
-import com.dandan.tzx.common.network.SimpleSubscriber
+import com.tzx.framework.base.BaseFragment
 import com.dandan.tzx.main.activity.MainActivity
 import com.dandan.tzx.main.model.GankTodayDataEntities
 import com.dandan.tzx.main.model.historyList
@@ -88,7 +87,7 @@ class HistoryFragment(activity: MainActivity) : BaseFragment() {
         }
         val path = historyList!!.results[pageIndex].replace("-", "/")
         val s = submitForObservable(HistoryListTask(path))
-                .subscribe(object: SimpleSubscriber<GankTodayDataEntities>() {
+                .subscribe(object: com.tzx.framework.retrofit.SimpleSubscriber<GankTodayDataEntities>() {
                     override fun onNext(t: GankTodayDataEntities) {
                         super.onNext(t)
                         swipe_refresh_layout.isRefreshing = false

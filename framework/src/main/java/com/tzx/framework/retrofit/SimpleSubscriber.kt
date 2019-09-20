@@ -1,4 +1,4 @@
-package com.dandan.tzx.common.network
+package com.tzx.framework.retrofit
 
 import android.util.Log
 import rx.Subscriber

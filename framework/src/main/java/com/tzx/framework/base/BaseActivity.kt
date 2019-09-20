@@ -1,8 +1,7 @@
-package com.dandan.tzx.common.activity
+package com.tzx.framework.base
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.dandan.tzx.common.network.RetrofitTask
 import rx.Observable
 import rx.Subscription
 import rx.subscriptions.CompositeSubscription
@@ -35,7 +34,7 @@ open class BaseActivity : AppCompatActivity() {
         return this.mCompositeSubscription
     }
 
-    protected open fun <T> submitForObservable(task: RetrofitTask<T>): Observable<T> {
+    protected open fun <T> submitForObservable(task: com.tzx.framework.retrofit.RetrofitTask<T>): Observable<T> {
         return task.exeForObservable()
     }
 

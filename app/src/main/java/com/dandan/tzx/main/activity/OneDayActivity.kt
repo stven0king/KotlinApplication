@@ -2,7 +2,7 @@ package com.dandan.tzx.main.activity
 
 import android.os.Bundle
 import com.dandan.tzx.R
-import com.dandan.tzx.common.activity.BaseActivity
+import com.tzx.framework.base.BaseActivity
 import com.dandan.tzx.main.fragment.RecommendFragment
 import com.dandan.tzx.main.model.GankTodayDataEntities
 import kotlinx.android.synthetic.main.activity_main_layout.*

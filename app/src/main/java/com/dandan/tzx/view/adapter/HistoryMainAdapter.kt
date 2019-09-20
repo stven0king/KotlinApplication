@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.dandan.tzx.common.view.BaseAdapter
-import com.dandan.tzx.common.view.BaseViewHolder
+import com.tzx.framework.view.BaseAdapter
+import com.tzx.framework.view.BaseViewHolder
 import com.dandan.tzx.config.GlideApp
 import com.dandan.tzx.main.model.GankTodayDataEntities
 import com.dandan.tzx.R

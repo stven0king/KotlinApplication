@@ -9,8 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.dandan.tzx.R
-import com.dandan.tzx.common.activity.BaseFragment
-import com.dandan.tzx.common.network.SimpleSubscriber
+import com.tzx.framework.base.BaseFragment
 import com.dandan.tzx.config.GankioConfig
 import com.dandan.tzx.main.activity.MainActivity
 import com.dandan.tzx.main.model.CategoryDataEntities
@@ -86,7 +85,7 @@ class FindMainFragment(activity: MainActivity) : BaseFragment() {
 
     private fun getListData() {
         val s = submitForObservable(CategoryListTask(GankioConfig.GankCategoryType[6], pageSize, pageName))
-                .subscribe(object: SimpleSubscriber<CategoryDataEntities>() {
+                .subscribe(object: com.tzx.framework.retrofit.SimpleSubscriber<CategoryDataEntities>() {
                     override fun onNext(t: CategoryDataEntities) {
                         super.onNext(t)
                         swipe_refresh_layout.isRefreshing = false

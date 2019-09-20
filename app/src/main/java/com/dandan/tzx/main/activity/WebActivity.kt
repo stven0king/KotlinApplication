@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import com.dandan.tzx.R
-import com.dandan.tzx.common.activity.BaseActivity
+import com.tzx.framework.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_web_layout.*
 
 /**

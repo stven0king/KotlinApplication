@@ -1,10 +1,8 @@
 package com.dandan.tzx.main.task
 
-import com.dandan.tzx.common.network.RetrofitTask
+import com.tzx.framework.retrofit.RetrofitTask
 import com.dandan.tzx.main.model.CategoryDataEntities
-import com.dandan.tzx.main.model.GankTodayDataEntities
 import com.dandan.tzx.main.service.GankService
-import org.json.JSONObject
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -15,7 +13,7 @@ import rx.schedulers.Schedulers
  * Description:
  */
 class CategoryListTask(val type: String, val pageSize: Int, val pageName: Int)
-        : RetrofitTask<CategoryDataEntities>() {
+        : com.tzx.framework.retrofit.RetrofitTask<CategoryDataEntities>() {
     override fun exeForObservable(): Observable<CategoryDataEntities> {
         return createService(GankService::class.java)
                 .getCategoryData(type, "$pageSize/$pageName")

@@ -1,8 +1,7 @@
-package com.dandan.tzx.common.network
+package com.tzx.framework.retrofit
 
-import com.dandan.tzx.common.utils.getappCacheDir
-import com.dandan.tzx.config.FileConfig
-import com.dandan.tzx.config.GankioConfig
+
+import com.tzx.framework.utils.getappCacheDir
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -18,17 +17,24 @@ import java.util.concurrent.TimeUnit
  * Description:
  */
 
-object RetrofitApiFactory {
-    const val TIME_OUT: Long = 30
-    val cacheFile: File = File(getappCacheDir(), FileConfig.NETWORK_CACHE)
-    val cache: Cache = Cache(cacheFile, 1024 * 1024 * 50)
+class RetrofitApiFactory private constructor(){
+    val cacheFile: File = File(getappCacheDir(), "retrofitCache")
+    private var cache: Cache = Cache(cacheFile, 1024 * 1024 * 50)
     private val cacheMap = ConcurrentHashMap<Class<*>, Retrofit>()
+
+    public fun config(cacheFile: File) {
+        config(Cache(cacheFile, 1024 * 1024 * 50))
+    }
+
+    public fun config(cache:Cache) {
+        this.cache = cache
+    }
 
     fun initOkHttpClient():OkHttpClient {
         cacheMap.clear()
         return OkHttpClient.Builder()
-                .readTimeout(TIME_OUT, TimeUnit.SECONDS)
-                .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
+                .readTimeout(Companion.TIME_OUT, TimeUnit.SECONDS)
+                .writeTimeout(Companion.TIME_OUT, TimeUnit.SECONDS)
                 .addInterceptor(JobInterceptor())
                 .addNetworkInterceptor(JobNetworkInterceptor())
                 .cache(cache)
@@ -39,8 +45,10 @@ object RetrofitApiFactory {
         return if (cacheMap.contains(serviceClass)) {
             cacheMap[serviceClass]
         } else {
+            val host = serviceClass.getAnnotation(Host::class.java)
+            requireNotNull(host) { "请在" + serviceClass.simpleName + "接口上添加host配置" }
             val retrofit = Retrofit.Builder()
-                    .baseUrl(GankioConfig.GankBaseUrl)
+                    .baseUrl(host.baseUrl)
                     .client(initOkHttpClient())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
@@ -48,5 +56,14 @@ object RetrofitApiFactory {
             cacheMap.put(serviceClass, retrofit)
             retrofit
         }
+    }
+
+    companion object {
+        const val TIME_OUT: Long = 30
+        val instance = SingletonHolder.instance
+    }
+
+    private object SingletonHolder {
+        val instance = RetrofitApiFactory()
     }
 }

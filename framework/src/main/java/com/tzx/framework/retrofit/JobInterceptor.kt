@@ -1,4 +1,4 @@
-package com.dandan.tzx.common.network
+package com.tzx.framework.retrofit
 
 import android.util.Log
 import okhttp3.Interceptor
@@ -22,7 +22,7 @@ class JobInterceptor : Interceptor {
         /*------------请求如果失败初始化 okhttpclient---*/
         var response: Response = chain.proceed(request)
         if (!response.isSuccessful) {
-            RetrofitApiFactory.initOkHttpClient()
+            RetrofitApiFactory.instance.initOkHttpClient()
         } else {
             val maxAge: Int = request.cacheControl().maxAgeSeconds()
             if (request.cacheControl().isPublic && maxAge > 1) {

@@ -4,17 +4,14 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.dandan.tzx.R
-import com.dandan.tzx.common.activity.BaseActivity
-import com.dandan.tzx.common.activity.BaseFragment
-import com.dandan.tzx.common.network.SimpleSubscriber
+import com.tzx.framework.base.BaseActivity
+import com.tzx.framework.base.BaseFragment
 import com.dandan.tzx.config.GlideApp
-import com.dandan.tzx.main.activity.MainActivity
 import com.dandan.tzx.main.activity.PicPreviewActivity
 import com.dandan.tzx.main.model.GankItemEntiry
 import com.dandan.tzx.main.model.GankTodayDataEntities
@@ -59,7 +56,7 @@ class RecommendFragment(activity: BaseActivity) : BaseFragment() {
             return
         }
         val s = submitForObservable(TodayListTask())
-                .subscribe(object: SimpleSubscriber<GankTodayDataEntities>() {
+                .subscribe(object: com.tzx.framework.retrofit.SimpleSubscriber<GankTodayDataEntities>() {
                     override fun onNext(t: GankTodayDataEntities) {
                         super.onNext(t)
                         setViewData(t)

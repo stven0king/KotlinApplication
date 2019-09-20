@@ -8,9 +8,8 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.dandan.tzx.App
 import com.dandan.tzx.R
-import com.dandan.tzx.common.utils.dip2px
-import com.dandan.tzx.common.view.BaseAdapter
-import com.dandan.tzx.common.view.BaseViewHolder
+import com.tzx.framework.view.BaseAdapter
+import com.tzx.framework.view.BaseViewHolder
 import com.dandan.tzx.config.GlideApp
 import com.dandan.tzx.main.activity.WebActivity
 import com.dandan.tzx.main.model.GankItemEntiry
@@ -64,7 +63,7 @@ class RecommendMainAdapter(context: Context) : BaseAdapter<Any>(context) {
                 icon_iv.visibility = View.VISIBLE
                 GlideApp.with(itemView).load(data.images[0]).into(icon_iv)
                 var l = content_tv.layoutParams as RelativeLayout.LayoutParams
-                l.rightMargin = dip2px(App.application!!, 90f)
+                l.rightMargin = com.tzx.framework.utils.dip2px( 90f)
                 content_tv.layoutParams = l
             } else {
                 icon_iv.visibility = View.GONE

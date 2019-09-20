@@ -1,12 +1,12 @@
 package com.dandan.tzx.main.service
 
+import com.dandan.tzx.config.GankioConfig
 import com.dandan.tzx.main.model.CategoryDataEntities
 import com.dandan.tzx.main.model.GankHistoryDay
 import com.dandan.tzx.main.model.GankTodayDataEntities
-import org.json.JSONObject
+import com.tzx.framework.retrofit.Host
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Url
 import rx.Observable
 
 /**
@@ -15,6 +15,7 @@ import rx.Observable
  * Description:
  */
 
+@Host(GankioConfig.GankBaseUrl)
 interface GankService {
 
     @GET("api/day/history")

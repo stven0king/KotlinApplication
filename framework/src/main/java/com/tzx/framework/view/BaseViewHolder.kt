@@ -1,4 +1,4 @@
-package com.dandan.tzx.common.view
+package com.tzx.framework.view
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

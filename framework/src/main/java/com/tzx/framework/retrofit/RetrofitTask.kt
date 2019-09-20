@@ -1,4 +1,4 @@
-package com.dandan.tzx.common.network
+package com.tzx.framework.retrofit
 
 import rx.Observable
 
@@ -17,6 +17,6 @@ abstract class RetrofitTask<T> : ITask {
     abstract fun exeForObservable(): Observable<T>
 
     fun <T> createService(serviceClass: Class<T>): T {
-        return RetrofitApiFactory.createRetrofit(serviceClass)?.create(serviceClass)!!
+        return RetrofitApiFactory.instance.createRetrofit(serviceClass)?.create(serviceClass)!!
     }
 }

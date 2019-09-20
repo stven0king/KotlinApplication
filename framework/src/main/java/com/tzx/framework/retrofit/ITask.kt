@@ -1,4 +1,4 @@
-package com.dandan.tzx.common.network
+package com.tzx.framework.retrofit
 
 /**
  * Created by Tanzhenxing

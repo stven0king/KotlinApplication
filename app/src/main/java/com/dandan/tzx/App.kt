@@ -1,6 +1,7 @@
 package com.dandan.tzx
 
-import android.app.Application
+import com.tzx.framework.base.AbstractApplication
+import com.tzx.framework.base.ApplicationObserver
 
 /**
  * Created by Tanzhenxing
@@ -8,14 +9,10 @@ import android.app.Application
  * Description:应用程序
  */
 
-class App : Application() {
-    companion object {
-        var application: Application? = null
-    }
-
+class App : AbstractApplication() {
     override fun onCreate() {
         super.onCreate()
-        application = this
+        addObserver(ApplicationObserver(this))
     }
 
 }

@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.activity.PicPreviewActivity"/>
+        <activity android:name=".main.activity.OneDayActivity"/>
+        <activity android:name=".main.activity.WebActivity"/>
     </application>
 
 </manifest>

@@ -10,10 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.dandan.tzx.R
+import com.dandan.tzx.common.activity.BaseActivity
 import com.dandan.tzx.common.activity.BaseFragment
 import com.dandan.tzx.common.network.SimpleSubscriber
 import com.dandan.tzx.config.GlideApp
 import com.dandan.tzx.main.activity.MainActivity
+import com.dandan.tzx.main.activity.PicPreviewActivity
 import com.dandan.tzx.main.model.GankItemEntiry
 import com.dandan.tzx.main.model.GankTodayDataEntities
 import com.dandan.tzx.main.task.TodayListTask
@@ -26,7 +28,10 @@ import kotlinx.android.synthetic.main.fragment_recommend_main_layout.*
  * Description:
  */
 @SuppressLint("ValidFragment")
-class RecommendFragment(activity: MainActivity) : BaseFragment() {
+class RecommendFragment(activity: BaseActivity) : BaseFragment() {
+    companion object {
+        val DATA = "data"
+    }
     private val viewPageAdapter: ViewPageAdapter by lazy { ViewPageAdapter() }
     private val adapter:RecommendMainAdapter by lazy { RecommendMainAdapter(activity) }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,38 +50,75 @@ class RecommendFragment(activity: MainActivity) : BaseFragment() {
         mRecyclerView.adapter = this.adapter
     }
 
-    fun initData() {
+    private fun initData() {
+        if (arguments != null) {
+            val t = arguments!!.getParcelable<GankTodayDataEntities>(DATA)
+            if (t != null) {
+                setViewData(t)
+            }
+            return
+        }
         val s = submitForObservable(TodayListTask())
                 .subscribe(object: SimpleSubscriber<GankTodayDataEntities>() {
                     override fun onNext(t: GankTodayDataEntities) {
                         super.onNext(t)
-                        if (!t.error) {
-                            updateViewPage(t.results.meizhi)
-                            var list = mutableListOf<Any>()
-                            list.add("Android")
-                            list.addAll(t.results.android)
-                            list.add("IOS")
-                            list.addAll(t.results.ios)
-                            list.add("休息视频")
-                            list.addAll(t.results.video)
-                            adapter.clean()
-                            adapter.addData(list)
-                            adapter.notifyDataSetChanged()
-                        }
+                        setViewData(t)
                     }
                 })
         addSubscription(s)
     }
 
-    fun updateViewPage(list: List<GankItemEntiry>) {
+
+    private fun setViewData(t:GankTodayDataEntities) {
+        if (!t.error) {
+            updateViewPage(t.results.meizhi)
+            var list = mutableListOf<Any>()
+            t.results.android?.let {
+                list.add("Android")
+                list.addAll(it)
+            }
+            t.results.ios?.let {
+                list.add("IOS")
+                list.addAll(it)
+            }
+            t.results.fe?.let {
+                list.add("前端")
+                list.addAll(it)
+            }
+            t.results.app?.let {
+                list.add("App")
+                list.addAll(it)
+            }
+            t.results.source?.let {
+                list.add("扩展资源")
+                list.addAll(it)
+            }
+            t.results.recommend?.let {
+                list.add("瞎推荐")
+                list.addAll(it)
+            }
+            t.results.video?.let {
+                list.add("休息视频")
+                list.addAll(it)
+            }
+            adapter.clean()
+            adapter.addData(list)
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+    fun updateViewPage(list: List<GankItemEntiry>?) {
+        if (list == null) return
         val listView = mutableListOf<View>()
         for (item in list) {
             val image = ImageView(activity)
             image.scaleType = ImageView.ScaleType.CENTER_CROP
             GlideApp.with(activity).load(item.url).into(image)
+            image.setOnClickListener { PicPreviewActivity.startActivity(activity!!, item.url) }
             listView.add(image)
         }
         viewPageAdapter.list = listView
+
         viewPageAdapter.notifyDataSetChanged()
     }
 

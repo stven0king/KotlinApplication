@@ -19,6 +19,8 @@ import com.dandan.tzx.view.adapter.BottomAdapter
 import kotlinx.android.synthetic.main.activity_main_layout.*
 import kotlinx.android.synthetic.main.fragment_find_main_layout.*
 import com.dandan.tzx.main.model.historyList
+import com.dandan.tzx.main.service.ToastObserver
+import java.util.logging.Logger
 
 
 class MainActivity : BaseActivity() {
@@ -32,6 +34,7 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main_layout)
         init()
         getData()
+        lifecycle.addObserver(ToastObserver())
     }
 
     private fun init() {

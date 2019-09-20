@@ -12,6 +12,7 @@ import com.dandan.tzx.common.utils.dip2px
 import com.dandan.tzx.common.view.BaseAdapter
 import com.dandan.tzx.common.view.BaseViewHolder
 import com.dandan.tzx.config.GlideApp
+import com.dandan.tzx.main.activity.WebActivity
 import com.dandan.tzx.main.model.GankItemEntiry
 
 /**
@@ -74,6 +75,7 @@ class RecommendMainAdapter(context: Context) : BaseAdapter<Any>(context) {
             }
             content_tv.text = data.desc
             author_tv.text = data.who
+            itemView!!.setOnClickListener { WebActivity.startActivity(context, data.type, data.url) }
         }
     }
 }

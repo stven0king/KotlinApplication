@@ -1,29 +1,22 @@
 package com.dandan.tzx.main.fragment
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.dandan.tzx.App
 import com.dandan.tzx.R
 import com.dandan.tzx.common.activity.BaseFragment
 import com.dandan.tzx.common.network.SimpleSubscriber
-import com.dandan.tzx.common.utils.getDisplayWidth
-import com.dandan.tzx.config.GankioConfig
 import com.dandan.tzx.main.activity.MainActivity
-import com.dandan.tzx.main.model.CategoryDataEntities
 import com.dandan.tzx.main.model.GankTodayDataEntities
-import com.dandan.tzx.main.task.CategoryListTask
-import com.dandan.tzx.main.task.HistoryListTask
-import kotlinx.android.synthetic.main.fragment_find_main_layout.*
 import com.dandan.tzx.main.model.historyList
+import com.dandan.tzx.main.task.HistoryListTask
 import com.dandan.tzx.view.adapter.HistoryMainAdapter
+import kotlinx.android.synthetic.main.fragment_find_main_layout.*
 
 /**
  * Created by Tanzhenxing

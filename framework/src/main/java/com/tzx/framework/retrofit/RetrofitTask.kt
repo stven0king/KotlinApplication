@@ -16,7 +16,7 @@ abstract class RetrofitTask<T> : ITask {
 
     abstract fun exeForObservable(): Observable<T>
 
-    fun <T> createService(serviceClass: Class<T>): T {
+    open fun <T> createService(serviceClass: Class<T>): T {
         return RetrofitApiFactory.instance.createRetrofit(serviceClass)?.create(serviceClass)!!
     }
 }

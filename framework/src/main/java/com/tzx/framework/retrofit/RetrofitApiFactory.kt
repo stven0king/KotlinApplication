@@ -17,10 +17,10 @@ import java.util.concurrent.TimeUnit
  * Description:
  */
 
-class RetrofitApiFactory private constructor(){
+open class RetrofitApiFactory {
     val cacheFile: File = File(getappCacheDir(), "retrofitCache")
-    private var cache: Cache = Cache(cacheFile, 1024 * 1024 * 50)
-    private val cacheMap = ConcurrentHashMap<Class<*>, Retrofit>()
+    protected var cache: Cache = Cache(cacheFile, 1024 * 1024 * 50)
+    protected val cacheMap = ConcurrentHashMap<Class<*>, Retrofit>()
 
     public fun config(cacheFile: File) {
         config(Cache(cacheFile, 1024 * 1024 * 50))
@@ -30,11 +30,11 @@ class RetrofitApiFactory private constructor(){
         this.cache = cache
     }
 
-    fun initOkHttpClient():OkHttpClient {
+    open fun initOkHttpClient():OkHttpClient {
         cacheMap.clear()
         return OkHttpClient.Builder()
-                .readTimeout(Companion.TIME_OUT, TimeUnit.SECONDS)
-                .writeTimeout(Companion.TIME_OUT, TimeUnit.SECONDS)
+                .readTimeout(TIME_OUT, TimeUnit.SECONDS)
+                .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .addInterceptor(JobInterceptor())
                 .addNetworkInterceptor(JobNetworkInterceptor())
                 .cache(cache)
@@ -47,16 +47,21 @@ class RetrofitApiFactory private constructor(){
         } else {
             val host = serviceClass.getAnnotation(Host::class.java)
             requireNotNull(host) { "请在" + serviceClass.simpleName + "接口上添加host配置" }
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(host.baseUrl)
-                    .client(initOkHttpClient())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-            cacheMap.put(serviceClass, retrofit)
-            retrofit
+            val ret = buildRetrofit(host.baseUrl)
+            cacheMap.put(serviceClass, ret)
+            return ret
         }
     }
+
+    open fun buildRetrofit(baseUrl:String): Retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(initOkHttpClient())
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addConverterFactory(ByteArrayConverterFactory.create())
+            .addConverterFactory(JSONObjectResponseConverterFactory.create())
+            .addConverterFactory(StringResponseConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
     companion object {
         const val TIME_OUT: Long = 30

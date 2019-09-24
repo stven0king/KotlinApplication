@@ -40,6 +40,7 @@
         android:layout_marginBottom="@dimen/bottom_navigationview_height"/>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/github"
         android:src="@drawable/github_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

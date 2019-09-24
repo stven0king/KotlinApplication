@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tzx.githubclient" >
+    <application>
+        <activity android:name=".main.activity.GithubLoginActivity"/>
+        <activity android:name=".main.activity.GithubRepoListActivity"/>
+    </application>
+</manifest>

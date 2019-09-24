@@ -20,7 +20,7 @@ import com.dandan.tzx.main.activity.OneDayActivity
  * Description:
  */
 class HistoryMainAdapter(context: Context) : BaseAdapter<GankTodayDataEntities>(context) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<GankTodayDataEntities> {GankTodayDataEntities
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<GankTodayDataEntities> {
         val view = mInflater.inflate(R.layout.item_history_layout, parent, false)
         return ViewHolder(view)
     }

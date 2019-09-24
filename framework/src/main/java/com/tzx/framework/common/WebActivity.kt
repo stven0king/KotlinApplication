@@ -1,10 +1,10 @@
-package com.dandan.tzx.main.activity
+package com.tzx.framework.common
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import com.dandan.tzx.R
+import com.tzx.framework.R
 import com.tzx.framework.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_web_layout.*
 

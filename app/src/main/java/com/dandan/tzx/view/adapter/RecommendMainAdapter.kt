@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.dandan.tzx.App
 import com.dandan.tzx.R
 import com.tzx.framework.view.BaseAdapter
 import com.tzx.framework.view.BaseViewHolder
 import com.dandan.tzx.config.GlideApp
-import com.dandan.tzx.main.activity.WebActivity
+import com.tzx.framework.common.WebActivity
 import com.dandan.tzx.main.model.GankItemEntiry
+import com.tzx.githubclient.main.activity.GithubRepoListActivity
 
 /**
  * Created by Tanzhenxing
@@ -74,7 +74,14 @@ class RecommendMainAdapter(context: Context) : BaseAdapter<Any>(context) {
             }
             content_tv.text = data.desc
             author_tv.text = data.who
-            itemView!!.setOnClickListener { WebActivity.startActivity(context, data.type, data.url) }
+            itemView!!.setOnClickListener {
+                if (data.url.contains("github.com")) {
+                    val name = data.url.substring(data.url.indexOf("com") + 4, data.url.indexOf("/", data.url.indexOf("com") + 4))
+                    GithubRepoListActivity.startActivity(context, name)
+                } else {
+                    WebActivity.startActivity(context, data.type, data.url)
+                }
+            }
         }
     }
 }

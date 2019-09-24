@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.util.Log
 import com.dandan.tzx.R
-import com.tzx.framework.base.BaseActivity
 import com.dandan.tzx.main.fragment.FindMainFragment
 import com.dandan.tzx.main.fragment.HistoryFragment
 import com.dandan.tzx.main.fragment.RecommendFragment
 import com.dandan.tzx.main.model.GankHistoryDay
+import com.dandan.tzx.main.model.historyList
 import com.dandan.tzx.main.task.GankHistoryListTask
 import com.dandan.tzx.view.adapter.BottomAdapter
+import com.tzx.framework.base.BaseActivity
+import com.tzx.framework.retrofit.SimpleSubscriber
+import com.tzx.githubclient.main.activity.GithubLoginActivity
 import kotlinx.android.synthetic.main.activity_main_layout.*
-import com.dandan.tzx.main.model.historyList
 
 
 class MainActivity : BaseActivity() {
@@ -69,6 +71,11 @@ class MainActivity : BaseActivity() {
             }
 
         })
+        github.setOnClickListener { loginGihub() }
+    }
+
+    private fun loginGihub() {
+        GithubLoginActivity.startActivity(this)
     }
 
     private fun initViewAdapter(viewPage: ViewPager) {
@@ -81,7 +88,7 @@ class MainActivity : BaseActivity() {
 
     private fun getData() {
         val s = submitForObservable(GankHistoryListTask())
-                .subscribe(object: com.tzx.framework.retrofit.SimpleSubscriber<GankHistoryDay>() {
+                .subscribe(object: SimpleSubscriber<GankHistoryDay>() {
                     override fun onNext(t: GankHistoryDay) {
                         super.onNext(t)
                         if (!t.error) {

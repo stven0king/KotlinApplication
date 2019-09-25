@@ -30,8 +30,6 @@ class GithubLoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.github_login_layout)
-        username_tv.setText("stven0king")
-        password_tv.setText("6439810tzx")
         login_btn.setOnClickListener { loginGithub() }
     }
 

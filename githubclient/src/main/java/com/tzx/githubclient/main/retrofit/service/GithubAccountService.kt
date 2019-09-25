@@ -24,4 +24,5 @@ interface GithubAccountService {
     @GET("/user")
     fun getUserInfo(@Query("access_token") accessToken:String): Observable<GithubUser>
 
+
 }

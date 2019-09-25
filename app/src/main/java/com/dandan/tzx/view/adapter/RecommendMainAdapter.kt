@@ -9,10 +9,11 @@ import android.widget.TextView
 import com.dandan.tzx.R
 import com.tzx.framework.view.BaseAdapter
 import com.tzx.framework.view.BaseViewHolder
-import com.dandan.tzx.config.GlideApp
 import com.tzx.framework.common.WebActivity
 import com.dandan.tzx.main.model.GankItemEntiry
+import com.tzx.framework.manager.ImageLoader
 import com.tzx.githubclient.main.activity.GithubRepoListActivity
+import com.tzx.githubclient.main.activity.GithubUserInfoActivity
 
 /**
  * Created by Tanzhenxing
@@ -61,7 +62,7 @@ class RecommendMainAdapter(context: Context) : BaseAdapter<Any>(context) {
             val data = itemData as GankItemEntiry
             if (data.images != null && data.images.isNotEmpty()) {
                 icon_iv.visibility = View.VISIBLE
-                GlideApp.with(itemView).load(data.images[0]).into(icon_iv)
+                ImageLoader.load(data.images[0], icon_iv)
                 var l = content_tv.layoutParams as RelativeLayout.LayoutParams
                 l.rightMargin = com.tzx.framework.utils.dip2px( 90f)
                 content_tv.layoutParams = l
@@ -77,7 +78,8 @@ class RecommendMainAdapter(context: Context) : BaseAdapter<Any>(context) {
             itemView!!.setOnClickListener {
                 if (data.url.contains("github.com")) {
                     val name = data.url.substring(data.url.indexOf("com") + 4, data.url.indexOf("/", data.url.indexOf("com") + 4))
-                    GithubRepoListActivity.startActivity(context, name)
+//                    GithubRepoListActivity.startActivity(context, name)
+                    GithubUserInfoActivity.startActivity(context, name)
                 } else {
                     WebActivity.startActivity(context, data.type, data.url)
                 }

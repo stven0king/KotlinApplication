@@ -3,5 +3,6 @@
     <application>
         <activity android:name=".main.activity.GithubLoginActivity"/>
         <activity android:name=".main.activity.GithubRepoListActivity"/>
+        <activity android:name=".main.activity.GithubUserInfoActivity"/>
     </application>
 </manifest>

@@ -11,12 +11,12 @@ import android.widget.ImageView
 import com.dandan.tzx.R
 import com.tzx.framework.base.BaseActivity
 import com.tzx.framework.base.BaseFragment
-import com.dandan.tzx.config.GlideApp
 import com.dandan.tzx.main.activity.PicPreviewActivity
 import com.dandan.tzx.main.model.GankItemEntiry
 import com.dandan.tzx.main.model.GankTodayDataEntities
 import com.dandan.tzx.main.task.TodayListTask
 import com.dandan.tzx.view.adapter.RecommendMainAdapter
+import com.tzx.framework.manager.ImageLoader
 import kotlinx.android.synthetic.main.fragment_recommend_main_layout.*
 
 /**
@@ -110,7 +110,7 @@ class RecommendFragment(activity: BaseActivity) : BaseFragment() {
         for (item in list) {
             val image = ImageView(activity)
             image.scaleType = ImageView.ScaleType.CENTER_CROP
-            GlideApp.with(activity).load(item.url).into(image)
+            ImageLoader.load(item.url, image)
             image.setOnClickListener { PicPreviewActivity.startActivity(activity!!, item.url) }
             listView.add(image)
         }

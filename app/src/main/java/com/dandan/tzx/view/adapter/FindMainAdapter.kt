@@ -8,9 +8,9 @@ import android.widget.TextView
 import com.dandan.tzx.R
 import com.tzx.framework.view.BaseAdapter
 import com.tzx.framework.view.BaseViewHolder
-import com.dandan.tzx.config.GlideApp
 import com.dandan.tzx.main.activity.PicPreviewActivity
 import com.dandan.tzx.main.model.GankItemEntiry
+import com.tzx.framework.manager.ImageLoader
 
 /**
  * Created by Tanzhenxing
@@ -29,7 +29,7 @@ class FindMainAdapter(context: Context) : BaseAdapter<GankItemEntiry>(context) {
         val desc: TextView = itemView!!.findViewById(R.id.desc)
         override fun onBind(i: GankItemEntiry, p: Int) {
             super.onBind(i, p)
-            GlideApp.with(itemView).load(itemData!!.url).into(icon)
+            ImageLoader.load(itemData!!.url, icon)
             desc.text = itemData!!.desc
             icon.setOnClickListener { PicPreviewActivity.startActivity(context, itemData!!.url) }
         }

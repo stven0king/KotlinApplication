@@ -4,6 +4,7 @@ import android.support.annotation.StringDef
 import com.tzx.framework.retrofit.Host
 import com.tzx.githubclient.config.GithubConfig
 import com.tzx.githubclient.main.model.GitHubRepoVo
+import com.tzx.githubclient.main.model.GithubUser
 import org.json.JSONObject
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -35,6 +36,11 @@ interface GithubRepoService {
     fun getUserRepos(@Path("name") user: String,
                      @Query("sort") @RepoSortStatus sort: String,
                      @Query("type") @RepoType type: String): Observable<List<GitHubRepoVo>>
+
+
+    @Headers("Cache-Control: public, max-age=600")
+    @GET("/users/{name}")
+    fun getUserInfo(@Path("name") name:CharSequence): Observable<GithubUser>
 }
 
 const val ALL = "all"

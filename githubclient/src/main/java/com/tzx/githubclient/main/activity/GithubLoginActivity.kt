@@ -23,7 +23,7 @@ class GithubLoginActivity : BaseActivity() {
             if (GitHubCache.user == null) {
                 context.startActivity(Intent(context, GithubLoginActivity::class.java))
             } else {
-                GithubRepoListActivity.startActivity(context, GitHubCache.user!!.login)
+                GithubUserInfoActivity.startActivity(context, GitHubCache.user!!.login)
             }
         }
     }
@@ -40,7 +40,9 @@ class GithubLoginActivity : BaseActivity() {
                 super.onNext(t)
                 toast("登录成功")
                 GitHubCache.user = t
-                GithubRepoListActivity.startActivity(this@GithubLoginActivity, GitHubCache.user!!.login)
+                GithubUserInfoActivity.startActivity(this@GithubLoginActivity, GitHubCache.user!!.login)
+//                GithubRepoListActivity.startActivity(this@GithubLoginActivity, GitHubCache.user!!.login)
+//                this@GithubLoginActivity.startActivity(Intent(this@GithubLoginActivity, GithubUserInfoActivity::class.java))
                 this@GithubLoginActivity.finish()
             }
 
@@ -49,5 +51,6 @@ class GithubLoginActivity : BaseActivity() {
                 toast("登录失败")
             }
         })
+        addSubscription(s)
     }
 }

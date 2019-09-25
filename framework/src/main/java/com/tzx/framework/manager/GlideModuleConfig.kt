@@ -1,4 +1,4 @@
-package com.dandan.tzx.config
+package com.tzx.framework.manager
 import android.content.Context
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.annotation.GlideModule
@@ -17,6 +17,6 @@ class GlideModuleConfig : AppGlideModule() {
         val memoryCacheSizeBytes: Long = 1024 * 1024 * 20 // 20mb
         builder!!.setMemoryCache(LruResourceCache(memoryCacheSizeBytes))
         val diskCacheSizeBytes: Long = 1024 * 1024 * 100  //100 MB
-        builder.setDiskCache(InternalCacheDiskCacheFactory(context, FileConfig.GLIDE_IMAGE_CACHE, diskCacheSizeBytes))
+        builder.setDiskCache(InternalCacheDiskCacheFactory(context, "imageCache", diskCacheSizeBytes))
     }
 }

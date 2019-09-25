@@ -7,7 +7,8 @@ import android.text.TextUtils
 import android.widget.ImageView
 import com.dandan.tzx.R
 import com.tzx.framework.base.BaseActivity
-import com.dandan.tzx.config.GlideApp
+import com.tzx.framework.manager.GlideApp
+
 import kotlinx.android.synthetic.main.image_preview_layout.*
 
 /**

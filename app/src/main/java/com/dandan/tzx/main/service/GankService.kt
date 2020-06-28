@@ -27,7 +27,10 @@ interface GankService {
     @GET("api/day/{path}")
     fun getHistoryData(@Path("path") path: String): Observable<GankTodayDataEntities>
 
-    @GET("api/data/{type}/{path}")
+
+//    @GET("api/data/{type}/{path}")
+    @GET("/api/v2/data/category/{type}/type/{type}/page/{page}/count/{count}")
     fun getCategoryData(@Path("type") type:String,
-                        @Path("path") path: String): Observable<CategoryDataEntities>
+                        @Path("page") page: Int,
+                        @Path("count") count: Int): Observable<CategoryDataEntities>
 }

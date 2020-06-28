@@ -16,7 +16,7 @@ class CategoryListTask(val type: String, val pageSize: Int, val pageName: Int)
         : com.tzx.framework.retrofit.RetrofitTask<CategoryDataEntities>() {
     override fun exeForObservable(): Observable<CategoryDataEntities> {
         return createService(GankService::class.java)
-                .getCategoryData(type, "$pageSize/$pageName")
+                .getCategoryData(type, pageName, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }

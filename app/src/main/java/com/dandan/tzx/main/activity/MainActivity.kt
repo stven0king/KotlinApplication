@@ -72,6 +72,7 @@ class MainActivity : BaseActivity() {
 
         })
         github.setOnClickListener { loginGihub() }
+        viewpage.currentItem = 1
     }
 
     private fun loginGihub() {
@@ -97,5 +98,10 @@ class MainActivity : BaseActivity() {
                     }
                 })
         addSubscription(s)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("tanzhenxing", "MainActivity:onResume")
     }
 }

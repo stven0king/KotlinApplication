@@ -6,6 +6,6 @@ package com.dandan.tzx.main.model
  * Description:
  */
 data class CategoryDataEntities(
-        val error: Boolean,
-        val results: List<GankItemEntiry>
+        val status: Int,
+        val data: List<GankItemEntiry>
 )

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,13 +30,18 @@ class FindMainFragment(activity: MainActivity) : BaseFragment() {
     private var pageName = 1
     private val adapter: FindMainAdapter by lazy { FindMainAdapter(activity) }
     private var isRrefreshState = false
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("tanzhenxing", "FindMainFragment:onCreate")
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.d("tanzhenxing", "FindMainFragment:onCreateView")
         return inflater.inflate(R.layout.fragment_find_main_layout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("tanzhenxing", "FindMainFragment:onViewCreated")
         initView()
         getListData()
     }
@@ -84,22 +90,28 @@ class FindMainFragment(activity: MainActivity) : BaseFragment() {
     }
 
     private fun getListData() {
-        val s = submitForObservable(CategoryListTask(GankioConfig.GankCategoryType[6], pageSize, pageName))
+        val s = submitForObservable(CategoryListTask(GankioConfig.NewGankCategoryType[6], pageSize, pageName))
                 .subscribe(object: com.tzx.framework.retrofit.SimpleSubscriber<CategoryDataEntities>() {
                     override fun onNext(t: CategoryDataEntities) {
                         super.onNext(t)
                         swipe_refresh_layout.isRefreshing = false
-                        if (!t.error) {
+                        if (t.status == 100) {
                             isRrefreshState = false
                             if (pageName == 1) {
                                 adapter!!.clean()
                             }
                             pageName++
-                            adapter!!.addData(t.results)
+                            adapter!!.addData(t.data)
                             adapter!!.notifyDataSetChanged()
                         }
                     }
                 })
         addSubscription(s)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("tanzhenxing", "FindMainFragment:onResume")
     }
 }

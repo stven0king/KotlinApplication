@@ -2,6 +2,8 @@ package com.dandan.tzx.main.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -9,15 +11,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.dandan.tzx.R
+import com.dandan.tzx.main.activity.PicPreviewActivity
+import com.dandan.tzx.main.model.GankBannerDataEntities
+import com.dandan.tzx.main.model.GankBannerItemBean
+import com.dandan.tzx.main.model.GankTodayDataEntities
+import com.dandan.tzx.main.task.GankBannerListTask
+import com.dandan.tzx.main.task.TodayListTask
+import com.dandan.tzx.view.AutoScrollViewPager
+import com.dandan.tzx.view.adapter.RecommendMainAdapter
 import com.tzx.framework.base.BaseActivity
 import com.tzx.framework.base.BaseFragment
-import com.dandan.tzx.main.activity.PicPreviewActivity
-import com.dandan.tzx.main.model.GankItemEntiry
-import com.dandan.tzx.main.model.GankTodayDataEntities
-import com.dandan.tzx.main.task.TodayListTask
-import com.dandan.tzx.view.adapter.RecommendMainAdapter
 import com.tzx.framework.manager.ImageLoader
+import com.tzx.framework.retrofit.SimpleSubscriber
 import kotlinx.android.synthetic.main.fragment_recommend_main_layout.*
+import java.lang.ref.WeakReference
 
 /**
  * Created by Tanzhenxing
@@ -31,6 +38,7 @@ class RecommendFragment(activity: BaseActivity) : BaseFragment() {
     }
     private val viewPageAdapter: ViewPageAdapter by lazy { ViewPageAdapter() }
     private val adapter:RecommendMainAdapter by lazy { RecommendMainAdapter(activity) }
+    private val handler: MyHandler by lazy { MyHandler(this) }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_recommend_main_layout, container, false)
     }
@@ -45,6 +53,17 @@ class RecommendFragment(activity: BaseActivity) : BaseFragment() {
         view_pager.adapter = viewPageAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(activity)
         mRecyclerView.adapter = this.adapter
+        view_pager.setOnViewPagerTouchEventListener(object : AutoScrollViewPager.OnViewPagerTouchEvent {
+            override fun onTouchDown() {
+                handler.removeMessages(0)
+            }
+
+            override fun onTouchUp() {
+                handler.removeMessages(0)
+                handler.sendEmptyMessageDelayed(0, MyHandler.DELAY)
+            }
+
+        })
     }
 
     private fun initData() {
@@ -63,12 +82,22 @@ class RecommendFragment(activity: BaseActivity) : BaseFragment() {
                     }
                 })
         addSubscription(s)
+
+        val bannerSubscription = submitForObservable(GankBannerListTask())
+                .subscribe(object: SimpleSubscriber<GankBannerDataEntities>() {
+                    override fun onNext(t: GankBannerDataEntities) {
+                        super.onNext(t)
+                        if (t.status == 100) {
+                            updateViewPage(t.data)
+                        }
+                    }
+                })
+        addSubscription(bannerSubscription)
     }
 
 
     private fun setViewData(t:GankTodayDataEntities) {
         if (!t.error) {
-            updateViewPage(t.results.meizhi)
             var list = mutableListOf<Any>()
             t.results.android?.let {
                 list.add("Android")
@@ -104,23 +133,45 @@ class RecommendFragment(activity: BaseActivity) : BaseFragment() {
         }
     }
 
-    fun updateViewPage(list: List<GankItemEntiry>?) {
+    fun updateViewPage(list: List<GankBannerItemBean>?) {
         if (list == null) return
         val listView = mutableListOf<View>()
         for (item in list) {
             val image = ImageView(activity)
             image.scaleType = ImageView.ScaleType.CENTER_CROP
-            ImageLoader.load(item.url, image)
+            ImageLoader.load(item.image, image)
             image.setOnClickListener { PicPreviewActivity.startActivity(activity!!, item.url) }
             listView.add(image)
         }
         viewPageAdapter.list = listView
-
         viewPageAdapter.notifyDataSetChanged()
+        handler.sendEmptyMessage(0)
+    }
+
+    fun scrollNext() {
+        viewPageAdapter.list?.let {
+            val i = view_pager.currentItem + 1;
+            view_pager.setCurrentItem(i % it.size, true)
+        }
+    }
+
+    class MyHandler(fragment: RecommendFragment): Handler() {
+        companion object {
+            const val DELAY = 5000L
+        }
+        private val weakViewPage= WeakReference(fragment)
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            weakViewPage.get()?.let {
+                it.scrollNext()
+            }
+            sendEmptyMessageDelayed(0, DELAY)
+        }
     }
 
     inner class ViewPageAdapter: PagerAdapter() {
         var list: List<View>? = null
+
         override fun getCount(): Int {
             return list?.size ?: 0
         }
@@ -137,5 +188,6 @@ class RecommendFragment(activity: BaseActivity) : BaseFragment() {
             container.addView(list!![position], 0, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
             return list!![position]
         }
+
     }
 }

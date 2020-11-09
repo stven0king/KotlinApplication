@@ -16,6 +16,7 @@ import com.dandan.tzx.main.activity.MainActivity
 import com.dandan.tzx.main.model.CategoryDataEntities
 import com.dandan.tzx.main.task.CategoryListTask
 import com.dandan.tzx.view.adapter.FindMainAdapter
+import com.tzx.framework.utils.JsonUtils
 import kotlinx.android.synthetic.main.fragment_find_main_layout.*
 
 
@@ -28,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_find_main_layout.*
 class FindMainFragment(activity: MainActivity) : BaseFragment() {
     private val pageSize = 10
     private var pageName = 1
-    private val adapter: FindMainAdapter by lazy { FindMainAdapter(activity) }
+    private val adapter: FindMainAdapter by lazy { FindMainAdapter(mRecyclerView,activity) }
     private var isRrefreshState = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,11 +99,12 @@ class FindMainFragment(activity: MainActivity) : BaseFragment() {
                         if (t.status == 100) {
                             isRrefreshState = false
                             if (pageName == 1) {
-                                adapter!!.clean()
+                                adapter.clean()
                             }
                             pageName++
-                            adapter!!.addData(t.data)
-                            adapter!!.notifyDataSetChanged()
+                            Log.d("tanzhenxing", JsonUtils.toJson(t.data))
+                            adapter.addData(t.data)
+                            adapter.notifyDataSetChanged()
                         }
                     }
                 })
